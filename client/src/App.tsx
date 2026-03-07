@@ -11,14 +11,19 @@ import PatientDetails from "@/pages/PatientDetails";
 import AITriage from "@/pages/AITriage";
 import ERCommandCenter from "@/pages/ERCommandCenter";
 import MedicineMarketplace from "@/pages/MedicineMarketplace";
+import PrescriptionTab from "@/pages/Prescriptions";
+import DatasetSupplier from "@/pages/DatasetSupplier";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Dashboard}/>
+      <Route path="/patients-list" component={Dashboard}/>
       <Route path="/patients/:id" component={PatientDetails}/>
       <Route path="/triage" component={AITriage}/>
       <Route path="/er-board" component={ERCommandCenter}/>
+      <Route path="/prescriptions" component={PrescriptionTab}/>
+      <Route path="/datasets" component={DatasetSupplier}/>
       <Route path="/records">
         {/* Redirecting to dashboard as records are managed inside patient profile */}
         <Redirect to="/" />

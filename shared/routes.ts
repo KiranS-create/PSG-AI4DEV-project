@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertPatientSchema, insertMedicalRecordSchema, insertTriageAssessmentSchema, patients, medicalRecords, triageAssessments } from './schema';
+import { insertPatientSchema, insertMedicalRecordSchema, insertTriageAssessmentSchema, insertPrescriptionSchema, patients, medicalRecords, triageAssessments, prescriptions, datasets } from './schema';
 
 export const errorSchemas = {
   validation: z.object({
@@ -49,6 +49,45 @@ export const api = {
         400: errorSchemas.validation,
         404: errorSchemas.notFound,
       },
+    }
+  },
+  prescriptions: {
+    listByPatient: {
+      method: 'GET' as const,
+      path: '/api/patients/:patientId/prescriptions' as const,
+      responses: {
+        200: z.array(z.custom<typeof prescriptions.$inferSelect>()),
+      }
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/prescriptions' as const,
+      input: insertPrescriptionSchema,
+      responses: {
+        201: z.custom<typeof prescriptions.$inferSelect>(),
+        400: errorSchemas.validation,
+      }
+    }
+  },
+  datasets: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/datasets' as const,
+      responses: {
+        200: z.array(z.custom<typeof datasets.$inferSelect>()),
+      }
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/datasets' as const,
+      input: z.object({
+        name: z.string(),
+        description: z.string().optional(),
+        sourceRecordIds: z.array(z.number())
+      }),
+      responses: {
+        201: z.custom<typeof datasets.$inferSelect>(),
+      }
     }
   },
   medicalRecords: {

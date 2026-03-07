@@ -1,6 +1,6 @@
 import { db } from "./db";
-import { patients, medicalRecords, triageAssessments, type InsertPatient, type InsertMedicalRecord, type Patient, type MedicalRecord, type TriageAssessment, type InsertTriageAssessment } from "@shared/schema";
-import { eq, desc } from "drizzle-orm";
+import { patients, medicalRecords, triageAssessments, prescriptions, datasets, type InsertPatient, type InsertMedicalRecord, type Patient, type MedicalRecord, type TriageAssessment, type InsertTriageAssessment, type Prescription, type InsertPrescription, type Dataset, type InsertDataset } from "@shared/schema";
+import { eq, desc, inArray } from "drizzle-orm";
 
 export interface IStorage {
   // Patients
@@ -11,12 +11,21 @@ export interface IStorage {
   
   // Medical Records
   getMedicalRecords(patientId: number): Promise<MedicalRecord[]>;
+  getRecordsByIds(ids: number[]): Promise<MedicalRecord[]>;
   createMedicalRecord(record: InsertMedicalRecord): Promise<MedicalRecord>;
   
   // Triage Assessments
   getTriageAssessments(patientId: number): Promise<TriageAssessment[]>;
   getAllTriageAssessments(): Promise<TriageAssessment[]>;
   createTriageAssessment(assessment: InsertTriageAssessment): Promise<TriageAssessment>;
+
+  // Prescriptions
+  getPrescriptions(patientId: number): Promise<Prescription[]>;
+  createPrescription(prescription: InsertPrescription): Promise<Prescription>;
+
+  // Datasets
+  getDatasets(): Promise<Dataset[]>;
+  createDataset(dataset: InsertDataset): Promise<Dataset>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -46,6 +55,10 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(medicalRecords).where(eq(medicalRecords.patientId, patientId)).orderBy(desc(medicalRecords.createdAt));
   }
 
+  async getRecordsByIds(ids: number[]): Promise<MedicalRecord[]> {
+    return await db.select().from(medicalRecords).where(inArray(medicalRecords.id, ids));
+  }
+
   async createMedicalRecord(record: InsertMedicalRecord): Promise<MedicalRecord> {
     const [created] = await db.insert(medicalRecords).values(record).returning();
     return created;
@@ -61,6 +74,24 @@ export class DatabaseStorage implements IStorage {
 
   async createTriageAssessment(assessment: InsertTriageAssessment): Promise<TriageAssessment> {
     const [created] = await db.insert(triageAssessments).values(assessment).returning();
+    return created;
+  }
+
+  async getPrescriptions(patientId: number): Promise<Prescription[]> {
+    return await db.select().from(prescriptions).where(eq(prescriptions.patientId, patientId)).orderBy(desc(prescriptions.createdAt));
+  }
+
+  async createPrescription(prescription: InsertPrescription): Promise<Prescription> {
+    const [created] = await db.insert(prescriptions).values(prescription).returning();
+    return created;
+  }
+
+  async getDatasets(): Promise<Dataset[]> {
+    return await db.select().from(datasets).orderBy(desc(datasets.createdAt));
+  }
+
+  async createDataset(dataset: InsertDataset): Promise<Dataset> {
+    const [created] = await db.insert(datasets).values(dataset).returning();
     return created;
   }
 }

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Activity, Users, FileText, HeartPulse, Pill, LayoutDashboard } from "lucide-react";
+import { Activity, Users, FileText, HeartPulse, Pill, LayoutDashboard, Database, ClipboardList } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logoPath from "@assets/IMG-20260307-WA0000_1772842531262.jpg";
 
@@ -7,10 +7,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
 
   const navItems = [
-    { name: "Patient Dashboard", href: "/", icon: Users },
+    { name: "Dashboard", href: "/", icon: LayoutDashboard },
+    { name: "Patients", href: "/patients-list", icon: Users },
     { name: "AI Triage", href: "/triage", icon: HeartPulse },
-    { name: "ER Command Center", href: "/er-board", icon: Activity },
-    { name: "Health Records", href: "/records", icon: FileText },
+    { name: "ER Board", href: "/er-board", icon: Activity },
+    { name: "Prescriptions", href: "/prescriptions", icon: Pill },
+    { name: "Dataset Supplier", href: "/datasets", icon: Database },
     { name: "Medicine Market", href: "/medicine", icon: Pill },
   ];
 

@@ -171,5 +171,56 @@ export async function registerRoutes(
     }
   });
 
+  // PRESCRIPTIONS
+  app.get(api.prescriptions.listByPatient.path, async (req, res) => {
+    const list = await storage.getPrescriptions(Number(req.params.patientId));
+    res.json(list);
+  });
+
+  app.post(api.prescriptions.create.path, async (req, res) => {
+    try {
+      const input = api.prescriptions.create.input.parse(req.body);
+      const prescription = await storage.createPrescription(input);
+      res.status(201).json(prescription);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        res.status(400).json({ message: err.errors[0].message });
+      } else {
+        res.status(500).json({ message: "Server error" });
+      }
+    }
+  });
+
+  // DATASETS
+  app.get(api.datasets.list.path, async (req, res) => {
+    const list = await storage.getDatasets();
+    res.json(list);
+  });
+
+  app.post(api.datasets.create.path, async (req, res) => {
+    try {
+      const input = api.datasets.create.input.parse(req.body);
+      
+      // Simulate dataset generation logic
+      const records = await storage.getRecordsByIds(input.sourceRecordIds);
+      const datasetContent = records.map(r => r.content).join("\n---\n");
+      
+      const dataset = await storage.createDataset({
+        name: input.name,
+        description: input.description || null,
+        sourceRecordIds: input.sourceRecordIds,
+        status: "completed"
+      });
+      
+      res.status(201).json(dataset);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        res.status(400).json({ message: err.errors[0].message });
+      } else {
+        res.status(500).json({ message: "Server error" });
+      }
+    }
+  });
+
   return httpServer;
 }

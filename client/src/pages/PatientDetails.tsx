@@ -197,9 +197,11 @@ export default function PatientDetails() {
               className="flex h-11 w-full rounded-xl border-2 border-border bg-background/50 px-4 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/10 transition-all"
               value={recordData.type} onChange={e => setRecordData({...recordData, type: e.target.value})}
             >
-              <option value="General Checkup">General Checkup</option>
+              <option value="Consultation">Consultation</option>
+              <option value="Surgery">Surgery</option>
               <option value="Lab Results">Lab Results</option>
               <option value="Prescription">Prescription</option>
+              <option value="Imaging">Imaging</option>
               <option value="Discharge Summary">Discharge Summary</option>
             </select>
           </div>
