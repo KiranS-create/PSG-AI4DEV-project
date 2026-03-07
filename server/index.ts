@@ -59,7 +59,12 @@ app.use((req, res, next) => {
   next();
 });
 
+import { setupAuth } from "./replit_integrations/auth";
+import { registerAuthRoutes } from "./replit_integrations/auth/routes";
+
 (async () => {
+  await setupAuth(app);
+  registerAuthRoutes(app);
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
