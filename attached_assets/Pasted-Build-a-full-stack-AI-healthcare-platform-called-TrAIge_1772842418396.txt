@@ -1,0 +1,394 @@
+Build a full-stack AI healthcare platform called:
+
+TrAIge – Agentic Clinical Triage Intelligence System
+
+This system is based on the architecture described in the Sentinel AI Proof of Concept.
+
+The platform uses agent-based AI to analyze clinical narratives, patient vitals, and historical medical data to generate real-time triage decisions and clinical evidence for doctors.
+
+The entire system should run as a full-stack web application deployable on Replit.
+
+------------------------------------------------
+
+CORE ARCHITECTURE
+
+The system contains multiple AI agents:
+
+1. Narrative Miner (Agent 1)
+2. Admission Orchestrator (Agent 2)
+3. PII Redaction Agent
+4. Evidence Generator
+5. Vector Vault
+
+The platform should support:
+
+• Patients
+• Doctors
+• Hospital Admins
+
+------------------------------------------------
+
+TECH STACK
+
+Frontend
+React + TailwindCSS
+
+Backend
+Python FastAPI
+
+Database
+PostgreSQL
+
+Vector Database
+ChromaDB
+
+AI Models
+Bio-ClinicalBERT
+Sentence Transformers
+
+NLP Pipeline
+spaCy biomedical model
+
+Authentication
+JWT
+
+Deployment
+Docker-ready
+
+------------------------------------------------
+
+PROJECT STRUCTURE
+
+Create the following project structure:
+
+/traige-ai
+
+/backend
+main.py
+
+/routers
+auth.py
+triage.py
+patients.py
+records.py
+admin.py
+
+/services
+narrative_miner.py
+admission_orchestrator.py
+evidence_generator.py
+pii_redaction.py
+
+/vector
+vector_store.py
+
+/models
+user_model.py
+patient_model.py
+record_model.py
+triage_model.py
+
+/database
+db.py
+
+/utils
+security.py
+logger.py
+
+/frontend
+React UI
+
+------------------------------------------------
+
+AI AGENT 1
+Narrative Miner
+
+Purpose:
+Extract clinical entities from unstructured physician notes.
+
+Use Bio-ClinicalBERT or biomedical spaCy model.
+
+Process:
+
+Input
+Clinical notes
+PDF reports
+Doctor summaries
+
+Output
+
+Symptoms
+Diseases
+Medications
+Risk factors
+
+Convert extracted entities into structured HL7 FHIR-like objects.
+
+------------------------------------------------
+
+VECTOR VAULT
+
+Use ChromaDB.
+
+Store embeddings of patient history.
+
+Collection
+
+patient_history
+
+Each entry contains
+
+patient_id
+embedding
+risk_score
+metadata
+
+Functions
+
+store_patient_embedding()
+
+search_similar_cases()
+
+------------------------------------------------
+
+AI AGENT 2
+Admission Orchestrator
+
+Purpose
+
+Fuse patient history with real-time vitals to determine triage severity.
+
+Inputs
+
+patient_history_vector
+heart_rate
+oxygen_level
+age
+
+Logic
+
+history_weight = 0.7
+vitals_weight = 0.3
+
+final_score = (history_score * 0.7) + (vital_score * 0.3)
+
+Return triage priority.
+
+Levels
+
+CRITICAL
+HIGH
+MEDIUM
+LOW
+
+------------------------------------------------
+
+PII REDACTION AGENT
+
+Before any text enters the AI pipeline:
+
+Mask personal information
+
+Fields
+
+Name
+SSN
+Phone
+DOB
+
+Use regex and NER detection.
+
+------------------------------------------------
+
+EVIDENCE GENERATION
+
+Generate Evidence Cards explaining AI decisions.
+
+Each evidence card includes
+
+Detected symptoms
+Historical case match
+Vitals anomalies
+AI reasoning summary
+
+Example
+
+Chest pain matched cardiac history
+Oxygen saturation below safe threshold
+
+------------------------------------------------
+
+API ENDPOINTS
+
+AUTH
+
+POST /auth/register
+POST /auth/login
+
+PATIENT
+
+GET /patients/me
+PUT /patients/update
+
+TRIAGE
+
+POST /triage/analyze
+
+Input
+
+symptoms
+clinical_notes
+heart_rate
+oxygen_level
+
+Output
+
+severity
+risk_score
+recommended_department
+evidence_cards
+
+------------------------------------------------
+
+MEDICAL RECORDS
+
+POST /records/upload
+
+Upload
+
+PDF
+Clinical notes
+Reports
+
+Process
+
+Run narrative miner
+Create embeddings
+Store in vector vault
+
+------------------------------------------------
+
+ADMIN DASHBOARD
+
+Endpoints
+
+GET /admin/analytics
+
+Metrics
+
+Total patients
+Critical alerts
+ER load
+Average triage time
+
+------------------------------------------------
+
+HOSPITAL COMMAND CENTER
+
+Real-time triage board.
+
+Columns
+
+Patient
+Symptoms
+Vitals
+Risk Score
+Priority
+Department
+
+Sort by severity.
+
+------------------------------------------------
+
+FRONTEND
+
+Create a dark-mode React UI.
+
+Pages
+
+Login
+Register
+Patient Dashboard
+AI Triage
+Health Records
+Prescriptions
+Medicine Marketplace
+Community Health Tips
+Doctor Dashboard
+Admin Dashboard
+ER Command Center
+
+------------------------------------------------
+
+AI TRIAGE INTERFACE
+
+User enters
+
+Symptoms
+Age
+Heart rate
+Oxygen level
+
+System displays
+
+Severity
+Risk score
+Recommended department
+Evidence cards
+
+------------------------------------------------
+
+MEDICINE MARKETPLACE
+
+Search medicines.
+
+Provide links to
+
+Amazon Pharmacy
+Apollo
+PharmEasy
+Tata 1mg
+
+------------------------------------------------
+
+SECURITY
+
+Use
+
+JWT authentication
+bcrypt password hashing
+rate limiting
+
+------------------------------------------------
+
+DATA PRIVACY
+
+Implement
+
+PII masking
+secure encryption
+audit logs
+
+------------------------------------------------
+
+PERFORMANCE
+
+Target
+
+<300ms triage inference time.
+
+Load AI models at startup.
+
+------------------------------------------------
+
+RUN
+
+uvicorn main:app --reload
+
+Frontend
+
+npm run dev
+
+------------------------------------------------
+
+Ensure the entire system runs locally and can be deployed easily from Replit.
