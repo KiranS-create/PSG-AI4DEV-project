@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { usePatients } from "@/hooks/use-patients";
 import { useAnalyzeTriage } from "@/hooks/use-triage";
 import { Card, Button, Input, Textarea, Badge } from "@/components/ui";
-import { Activity, ShieldAlert, HeartPulse, BrainCircuit, ArrowRight } from "lucide-react";
+import { Activity, ShieldAlert, HeartPulse, BrainCircuit, ArrowRight, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn, getSeverityColor } from "@/lib/utils";
 import type { TriageAssessmentResponse } from "@shared/routes";

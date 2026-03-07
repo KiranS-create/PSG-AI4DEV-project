@@ -2,8 +2,8 @@ import React, { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
 // --- Button ---
-export const Button = forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'default' | 'outline' | 'ghost' | 'danger', size?: 'sm' | 'default' | 'lg' }>(
-  ({ className, variant = 'default', size = 'default', ...props }, ref) => {
+export const Button = forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'default' | 'outline' | 'ghost' | 'danger', size?: 'sm' | 'default' | 'lg', asChild?: boolean }>(
+  ({ className, variant = 'default', size = 'default', asChild: _asChild, ...props }, ref) => {
     return (
       <button
         ref={ref}
@@ -100,7 +100,7 @@ export function Modal({ isOpen, onClose, title, children }: { isOpen: boolean, o
         <div className="flex items-center justify-between p-6 border-b border-white/5">
           <h2 className="text-xl font-display font-semibold text-foreground">{title}</h2>
           <button onClick={onClose} className="p-2 text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-full transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinelinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </div>
         <div className="p-6 overflow-y-auto">
