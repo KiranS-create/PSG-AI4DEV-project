@@ -1,6 +1,7 @@
 [AI4Devread.pdf](https://github.com/user-attachments/files/25821062/AI4Devread.pdf)
 
 Read the above document first
+
 TrAIge – Clinical Triage Intelligence Platform
 TrAIge is a clinical triage and patient management platform designed to assist healthcare providers in prioritizing patient care using structured patient information, clinical history, and vital signs.
 
